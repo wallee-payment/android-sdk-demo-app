@@ -1,0 +1,72 @@
+[
+  {
+    "itemId": "apple",
+    "name": "Apple",
+    "description": "Additional information:\nSometimes you only need half an apple. Drizzle the other half with lemon juice or dip it in a bowl of lemon water to keep it from browning.",
+    "price": 3,
+    "imageUrl": "file:///android_asset/imgs/apple.png"
+  },
+  {
+    "itemId": "avocado",
+    "name": "Avocado",
+    "description": "Storage:\nKeep cool but not too cold (min. 6°C). To accelerate ripening, store with other fruits, such as apples or bananas, which give off ethylene. \n\nUseful tips:\nCreamy fruit flesh with nutty taste. Guacamole Rápida (3 minutes): 1-2 ripe avocados, 3-5 cloves of garlic, fresh, ripe tomatoes or pelati tomatoes from the can, juice of one lime, pepper, coriander, salt Preparation: Whisk all ingredients together with a blender , possibly season with Tabasco - done. Serve as a sauce with dips, chips and tacos \n\nAdditional information:\nIf you only use half an avocado, you can preserve the other half with the core. Sprinkle them extensively with lemon juice and then wrap them in foil. Store in a cool place to slow down the maturing process and oxidation.",
+    "price": 2,
+    "imageUrl": "file:///android_asset/imgs/avocado.png"
+  },
+  {
+    "itemId": "banana",
+    "name": "Bananas",
+    "description": "Storage:\nDo not store bananas in the fridge\n\nUseful tips:\nChiquita Banana - The first banana to receive Rainforest Alliance environmental certification The seal with the little frog distinguishes Chiquita's sustainable production methods.\n\nAdditional information:\nStill green bananas can simply be left at room temperature until they are fully ripe. To speed up the ripening process, an apple can be added to the bananas.",
+    "price": 2,
+    "imageUrl": "file:///android_asset/imgs/banana.png"
+  },
+  {
+    "itemId": "grapefruit",
+    "name": "Grapefruit",
+    "description": "Storage:\nGrapefruit keeps very well for 10 days in the crisper or 8 days at room temperature. Consume immediately after cutting, otherwise the pulp dries out and loses the vitamins that oxidize in the air. \n\nAdditional information:\nWhite-fleshed or non-pigmented grapefruits have a thin and pale yellow skin with the same, mostly seedless flesh. Unlike their coloured sisters, Blondies are refreshingly tart and therefore ideal juicers.",
+    "price": 1,
+    "imageUrl": "file:///android_asset/imgs/grapefruit.png"
+  },
+  {
+    "itemId": "kiwi",
+    "name": "Kiwi",
+    "description": "Storage:\nCan be stored in the refrigerator for 2 weeks and at room temperature for about 1 week. Kiwis ripen at room temperature, preferably close to apples. \n\nAdditional information:\n Also known as Chinese gooseberry, the fruit has a fine, sweet-sour and refreshing aroma. The flesh of the Kiwi Gold, the yellow sister, tastes sweet and juicy.",
+    "price": 3,
+    "imageUrl": "file:///android_asset/imgs/kiwi.png"
+  },
+  {
+    "itemId": "lemon",
+    "name": "Lemon",
+    "description": "Storage:\nKeep it at room temperature for a week, no more as it will dry out. However, it can be stored in the refrigerator's vegetable drawer for two weeks to a month without problem. \n\nAdditional information \nCounteracts oxidation of certain vegetables and fruits; prevents avocados , pears, bananas and apples from turning brown",
+    "price": 1,
+    "imageUrl": "file:///android_asset/imgs/lemon.png"
+  },
+  {
+    "itemId": "mango",
+    "name": "Mango",
+    "description": "Storage:\nDo not store in the refrigerator, fruit ripens at room temperature. The color says nothing about maturity. The mango will be fragrant around the stem when ready to eat.\n\nAdditional information:\nIts flesh is dark yellow, sweet, fatty and sweet with a false taste of peach and flower. Depending on the variety or when the fruit is too ripe, the flesh sometimes becomes thread-like.",
+    "price": 3,
+    "imageUrl": "file:///android_asset/imgs/mango.png"
+  },
+  {
+    "itemId": "melon",
+    "name": "Melon",
+    "description": "Useful tips:\nThe Piel de Sapo belongs to the melon family and is known for its characteristic appearance. The Spanish name means 'toad skin' because its green marbled, cracked skin is so similar to it.\n\nAdditional information \nThe white flesh of exceptional quality tastes similar to that of the honeydew melon, but is slightly sweeter. The Piel de Sapo melon should be eaten ripe when the cracks in the skin are well visible. The skin sometimes shows a slightly lighter colored spot, this is completely normal, because this is the spot where it lay on the floor when it was growing.",
+    "price": 4,
+    "imageUrl": "file:///android_asset/imgs/melon.png"
+  },
+  {
+    "itemId": "pomegranate",
+    "name": "Pomegranate",
+    "description": "Storage:\nCan be stored at room temperature for 4-5 days \n\nPractical tips:\nScore the peel all around, break open and remove the flesh including the pits or squeeze out like a citrus fruit. Don't eat the partitions. Be careful, juice and seeds leave permanent stains! \n\nAdditional information:\nThe kernels, covered with pulp, convey tangy acidity and tart sweetness. Cores for fruit salads, ice creams, creams and decoration. The squeezed juice is suitable for punches, cocktails, sorbets as well as for spicy salad dressings and game sauces.",
+    "price": 2,
+    "imageUrl": "file:///android_asset/imgs/pomegranate.png"
+  },
+  {
+    "itemId": "watermelon",
+    "name": "Watermelon",
+    "description": "Storage:\nOnce cut open, it keeps for about 6 days, well wrapped in foil, in the refrigerator.\n\nUseful tips:\nWhole watermelons are very hardy. It can be stored at room temperature for at least one week. Make sure that it is not too warm, otherwise it will mature. \n\nAdditional information:\nIf a normal watermelon is too big for you, between June and August you can fall back on the dwarf variant: the seedless mini watermelon is grown for small households. It is sweet and thirsty-quenching, easy to transport and quickly prepared as a snack",
+    "price": 3,
+    "imageUrl": "file:///android_asset/imgs/watermelon.png"
+  }
+]

@@ -1,0 +1,27 @@
+<resources>
+
+    <!-- Resources that do not require translation -->
+    <string name="app_name" translatable="false">Wallee Shop</string>
+
+    <!-- Translatable resources -->
+    <string name="menu_title" translation_description="The label for the menu item.">Item Menu</string>
+    <string name="my_shopping_cart_title" translation_description="Title for the 'My shop cart' screen where the user can see the list of items that have been added to their shop cart.">Shopping Cart</string>
+    <string name="item_list_title" translation_description="Title for the item list screen where the user can see a list of items available to add to their shop cart.">New Arrivals</string>
+    <string name="app_config_title" translatable="false" translation_description="Title for the config app.">Config</string>
+    <string name="shop_cart_empty" translation_description="Text that is shown on the 'My shop cart' screen when no items have been added to the user's shop cart">Your shopping cart is empty</string>
+    <string name="confirm_ok" translatable="false" translation_description="OK">OK</string>
+    <string name="config_user_id" translatable="false" translation_description="Enter the user id">Enter the user id</string>
+    <string name="config_space_id" translatable="false" translation_description="Enter the space id">Enter the space id</string>
+    <string name="config_auth_key" translatable="false" translation_description="Enter the authentication key">Enter the authentication key</string>
+    <string name="add_item" translation_description="Button text that prompts user to navigate to the available list to add items to their empty shop cart.">Add item</string>
+    <string name="added_item_to_shop_cart" translation_description="Confirmation text that is shown when a user adds an item to their empty shop cart.">Added item to shop cart</string>
+    <string name="added_config" translatable="false" translation_description="Confirmation text that is shown when a user adds config for the Wallee Portal.">Configuration for the Wallee Portal added</string>
+    <string name="add_config" translatable="false" translation_description="Button text that prompts user to navigate to add config.">Add Config</string>
+    <string name="config_empty" translatable="false" translation_description="Empty Config">Wallee Portal configuration is not present. Please provide user id, space id and authentication key.</string>
+    <string name="config_miss" translatable="false" translation_description="Missing Config">Wallee Portal configuration is missing.</string>
+    <string name="config_present" translatable="false" translation_description="Empty Config">Your Wallee Portal configuration is: </string>
+    <string name="price_header" translation_description="Price">Price</string>
+    <string name="pay_message" translation_description="Pay message">"Pay %1$d CHF"</string>
+    <string name="payment_result" translation_description="Pay message">"Payment result is: %1$s"</string>
+
+</resources>

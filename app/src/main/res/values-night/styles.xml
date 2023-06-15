@@ -1,0 +1,36 @@
+<resources>
+
+    <style name="Base.Theme.Wallee" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="colorPrimary">#1989fa</item>
+        <item name="colorOnPrimary">#fafafa</item>
+        <item name="colorPrimaryVariant">#9ca3af</item>
+        <item name="colorPrimaryDark">#9ca3af</item>
+        <item name="colorOnSurface">#fafafa</item>
+        <item name="colorAccent">#19abfa</item>
+        <item name="colorSurface">#1F2937</item>
+        <item name="colorSecondary">#1989fa</item>
+        <item name="colorError">#A70000</item>
+        <item name="colorOnError">#A70000</item>
+        <item name="android:colorBackground">#1F2937</item>
+<!--        <item name="android:statusBarColor">@android:color/transparent</item>-->
+<!--        <item name="android:navigationBarColor">@android:color/transparent</item>-->
+    </style>
+
+    <style name="Theme.Wallee" parent="Base.Theme.Wallee" />
+
+    <style name="Theme.Wallee.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="windowActionBarOverlay">true</item>
+        <item name="shapeAppearanceSmallComponent">@style/ShapeAppearance.Wallee.FAB</item>
+    </style>
+
+    <style name="Theme.Wallee.AppBarOverlay" parent="ThemeOverlay.MaterialComponents.Dark.ActionBar" />
+
+    <style name="TextAppearance.Wallee.Toolbar.Text" parent="TextAppearance.MaterialComponents.Headline5">
+        <item name="android:textColor">?attr/colorOnSurface</item>
+    </style>
+
+</resources>

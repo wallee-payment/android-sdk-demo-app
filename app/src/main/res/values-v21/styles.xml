@@ -1,0 +1,7 @@
+<resources>
+
+    <style name="Theme.Wallee" parent="Base.Theme.Wallee">
+        <item name="android:windowTranslucentStatus">true</item>
+    </style>
+
+</resources>
