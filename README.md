@@ -1,4 +1,4 @@
-# Wallee Shop - Demo App for Wallee Payment SDK
+# Wallee Shop - Demo App for wallee Payment SDK
 
 - [Application Architecture](#application-architecture)
 - [Wallee Payment SDK integration](#wallee-payment-sdk-integration)
@@ -26,15 +26,15 @@ The app separates the responsabilities using the package structure, The code is 
 
 [Jetpack Compose](https://developer.android.com/jetpack/compose/navigation) is a toolkit for building native UI. 
 It has access to the Android platform APIs and build-in support for Material Design, dark theme and animations.
-The compose logic can be found in the [compose package](com/wallee/samples/apps/shop/compose).
+The compose logic can be found in the [compose package](https://github.com/wallee-payment/android-sdk-demo-app/blob/da518223488e36f3e1e84c27f7e2c03cedfc68fd/app/src/main/java/com/wallee/samples/apps/shop/compose).
 
 **Dependency injection (DI)** is a technique widely used in programming and well suited to Android development.
 [Hilt](https://developer.android.com/training/dependency-injection/hilt-android) automatically constructs objects by walking the dependency tree, provides compile-time guarantees on dependencies,
 and creates dependency containers for Android framework classes.
-The [ViewModels]((app/src/main/java/com/wallee/samples/apps/shop/viewmodels)) are provided by annotating it with @HiltViewModel and using the @Inject annotation in the ViewModel object's constructor.
+The [ViewModels](https://github.com/wallee-payment/android-sdk-demo-app/blob/da518223488e36f3e1e84c27f7e2c03cedfc68fd/app/src/main/java/com/wallee/samples/apps/shop/viewmodels) are provided by annotating it with @HiltViewModel and using the @Inject annotation in the ViewModel object's constructor.
 
 The [Room](https://developer.android.com/training/data-storage/room) persistence library provides an abstraction layer over SQLite to allow fluent database access while harnessing the full power of SQLite.
-The database configuration and the data access objects (DAO) can be found in the [data package](com/wallee/samples/apps/shop/data). 
+The database configuration and the data access objects (DAO) can be found in the [data package](https://github.com/wallee-payment/android-sdk-demo-app/blob/da518223488e36f3e1e84c27f7e2c03cedfc68fd/app/src/main/java/com/wallee/samples/apps/shop/data). 
 Some queries are asynchronous and some are observable queries (for the shopping cart update).
 
 The app configuration is stored using **Jetpack DataStore**.
@@ -53,7 +53,7 @@ Add Wallee Payment SDK to your ```build.gradle.kts```
 implementation("com.wallee:wallee-payment-sdk:1.1.0")
 ```
 
-In the current implementation, in the build.gradle.kts:
+In the current implementation, the dependey is add in the build.gradle.kts file:
 ```implementation(libs.wallee.payment.sdk)```
 
 and the version can be found in libs.versions.toml (configuration file):
@@ -68,13 +68,12 @@ Sign up, set up your space and enable the payment methods you would like to supp
 
 In addition to that, an application user should be created.
 The user id and the application key generated from the Wallee Portal are used to authenticate the request.
-Check the [Portal documentation](https://app-wallee.com/en-us/doc/api/web-service/v2) or contact customer support for more details.
+Check the [Portal documentation](https://app-wallee.com/en-us/doc/api/web-service) or contact customer support for more details.
 
-The user id, space id and application key should be used in the ![configuration screen](doc/config.png).
+The user id, space id and application key should be used in the configuration screen. ![configuration screen](doc/config.png).
 
 # WalleePaymentSDK init
-It is recommended to initialize the WalleePaymentSdk in [Application](app/src/main/java/com/wallee/samples/apps/shop/ShopActivity.kt) class. 
-The access to WalleePaymentSdk instance and payment result is everywhere in the app.
+It is recommended to initialize the WalleePaymentSdk in [Application](app/src/main/java/com/wallee/samples/apps/shop/ShopActivity.kt) class.
 
 ```
 @HiltAndroidApp
@@ -105,6 +104,7 @@ In order to create a transaction, [Retrofit library](https://square.github.io/re
 ### JWT Token
 To authenticate the request, you need to create a JSON Web Token.
 This should be included in the **Authorization** header. 
+For more details, check the [wallee Portal documentation](https://app-wallee.com/en-us/doc/api/web-service/v2#_authentication)
 
 The **header** of the JWT Token should contain:
 ```
@@ -126,7 +126,7 @@ The **header** of the JWT Token should contain:
 ```
 The token should be signed with the application user's authentication key.
 
-The JWT token generated can be verify using [https://jwt.io/](https://jwt.io/)
+The JWT token generated can be verified using [https://jwt.io/](https://jwt.io/)
 
 Example of JWT Token Creation from the app:
 ```
@@ -190,7 +190,7 @@ fun create(accessKey: String, userId: String, requestPath: String): PortalServic
 ```
 ## Create Transaction
 In the Shopping Cart Screen, the checkout button calls the Portal View Model to create a transaction and a token
-associated with the transaction based on the transaction.
+associated with the it.
 
 ```
 portalViewModel.createToken(transaction, configViewModel.settings, launchSdk)
@@ -198,7 +198,7 @@ portalViewModel.createToken(transaction, configViewModel.settings, launchSdk)
 
 A transaction holds information about the customer and the line items and tracks charge attempts and the payment state.
 
-The [portal package](com/wallee/samples/apps/shop/data/portal) contains the data model for the Transaction.
+The [portal package](https://github.com/wallee-payment/android-sdk-demo-app/blob/da518223488e36f3e1e84c27f7e2c03cedfc68fd/app/src/main/java/com/wallee/samples/apps/shop/portal) contains the data model for the Transaction.
 
 ### Transaction Object
 An simple example of the transaction object is:
@@ -206,12 +206,12 @@ An simple example of the transaction object is:
 fun createTransaction(sumOf: Int): String {
     val myLineItem = LineItems(
                             amountIncludingTax = sumOf,
-                            name = "Bug in VPJ",
+                            name = "items-demo-shop",
                             quantity = 1,
                             shippingRequired = true,
-                            sku = "bug-in-vpj",
+                            sku = "items-demo-shop",
                             type = "PRODUCT",
-                            uniqueId = "bug-in-vpj"
+                            uniqueId = "items-demo-shop"
                     )
 
     val body = Transaction(
@@ -257,8 +257,8 @@ The same mechanism to generate the JWT token is used, but the request path is up
 ```
 
 ## Launch the Wallee Payment SDK  
-Based on the token obtained at Create Token step (TODO: DANIELA), the Wallee Payment SDK is launched 
-and the payment method can be choose.
+Based on the token obtained at [Create Token step](#create-token), the Wallee Payment SDK is launched 
+and the payment method can be chosen.
 
 ```
 fun launchSdkFromActivity(token: String) {
@@ -329,12 +329,12 @@ You can either completely override the theme or only change certain colors.
 
 Modify the payment dialog's light theme: 
 ```
-WalleePaymentSdk.instance.setDarkTheme(JSONObject) 
+WalleePaymentSdk.instance?.setLightTheme(JSONObject)
 ```
 
 Modify the payment dialog's dark theme.
 ```
-  WalleePaymentSdk.instance?.setLightTheme(JSONObject)
+WalleePaymentSdk.instance.setDarkTheme(JSONObject) 
 ```
 
 Enforce a specific theme (dark, light or your own):

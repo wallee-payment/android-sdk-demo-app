@@ -282,12 +282,12 @@ private fun EmptyShopCart(onAddItemClick: () -> Unit, modifier: Modifier = Modif
 fun createTransaction(sumOf: Int): String {
     val myLineItem = LineItems(
         amountIncludingTax = sumOf,
-        name = "Bug in VPJ",
+        name = "items-demo-shop",
         quantity = 1,
         shippingRequired = true,
-        sku = "bug-in-vpj",
+        sku = "items-demo-shop",
         type = "PRODUCT",
-        uniqueId = "bug-in-vpj"
+        uniqueId = "items-demo-shop"
     )
 
     val body = Transaction(
