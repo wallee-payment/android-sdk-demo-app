@@ -53,8 +53,10 @@ Add Wallee Payment SDK to your ```build.gradle.kts```
 implementation("com.wallee:wallee-payment-sdk:1.1.0")
 ```
 
-In the current implementation, the dependey is add in the build.gradle.kts file:
-```implementation(libs.wallee.payment.sdk)```
+In the current implementation, the dependency is add in the build.gradle.kts file:
+```
+implementation(libs.wallee.payment.sdk)
+```
 
 and the version can be found in libs.versions.toml (configuration file):
 ```
