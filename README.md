@@ -106,7 +106,7 @@ In order to create a transaction, [Retrofit library](https://square.github.io/re
 ### JWT Token
 To authenticate the request, you need to create a JSON Web Token.
 This should be included in the **Authorization** header. 
-For more details, check the [wallee Portal documentation](https://app-wallee.com/en-us/doc/api/web-service/v2#_authentication)
+For more details, check the [wallee Portal documentation](https://app-wallee.com/en-us/doc/api/web-service/v2#_authentication).
 
 The **header** of the JWT Token should contain:
 ```
@@ -200,7 +200,7 @@ portalViewModel.createToken(transaction, configViewModel.settings, launchSdk)
 
 A transaction holds information about the customer and the line items and tracks charge attempts and the payment state.
 
-The [portal package](https://github.com/wallee-payment/android-sdk-demo-app/blob/da518223488e36f3e1e84c27f7e2c03cedfc68fd/app/src/main/java/com/wallee/samples/apps/shop/portal) contains the data model for the Transaction.
+The [data/portal package](https://github.com/wallee-payment/android-sdk-demo-app/blob/79742ad38d47738631c04add4d10cdeeb924405b/app/src/main/java/com/wallee/samples/apps/shop/data/portal) contains the data model for the Transaction.
 
 ### Transaction Object
 An simple example of the transaction object is:
