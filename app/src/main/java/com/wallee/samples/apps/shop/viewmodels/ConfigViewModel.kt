@@ -1,111 +1,140 @@
 package com.wallee.samples.apps.shop.viewmodels
 
-import android.util.Log
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.wallee.samples.apps.shop.data.Settings
-import com.wallee.samples.apps.shop.utilities.TAG
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
+
+data class ConfigState(
+    val property: String,
+    val isInvalid: Boolean = false,
+    val errorMessage: String = ""
+)
 
 class ConfigViewModel : ViewModel() {
 
-    var settings: Settings = Settings("", "", "")
+    private val _userState = MutableStateFlow(ConfigState("", false, ""))
+    val userState: StateFlow<ConfigState> = _userState.asStateFlow()
 
-    var userId: MutableState<String> = mutableStateOf(settings.userId)
-    var isUserIdValid: MutableState<Boolean> = mutableStateOf(false)
-    var userIdErrMsg: MutableState<String> = mutableStateOf("")
+    private val _spaceState = MutableStateFlow(ConfigState("", false, ""))
+    val spaceState: StateFlow<ConfigState> = _spaceState.asStateFlow()
 
-    var spaceId: MutableState<String> = mutableStateOf(settings.spaceId)
-    var isSpaceIdValid: MutableState<Boolean> = mutableStateOf(false)
-    var spaceIdErrMsg: MutableState<String> = mutableStateOf("")
+    private val _appKeyState =
+        MutableStateFlow(ConfigState("", false, ""))
+    val appKeyState: StateFlow<ConfigState> = _appKeyState.asStateFlow()
 
-    var applicationKey: MutableState<String> = mutableStateOf(settings.applicationKey)
-    var isApplicationKeyValid: MutableState<Boolean> = mutableStateOf(false)
-    var applicationKeyErrMsg: MutableState<String> = mutableStateOf("")
 
     var isEnabledSavedButton: MutableState<Boolean> = mutableStateOf(false)
 
+    private val _showSnackbar = MutableStateFlow(false)
+
+    val showSnackbar: StateFlow<Boolean>
+        get() = _showSnackbar
+
     fun getUserId(): String {
-        return settings.userId
+        return userState.value.property
+    }
+
+    fun setUserId(userId: String) {
+        _userState.update { it.copy(property = userId) }
+        validateUserId()
     }
 
     fun getSpaceId(): String {
-        return settings.spaceId
+        return spaceState.value.property
+    }
+
+    fun setSpaceId(spaceId: String) {
+        _spaceState.update { it.copy(property = spaceId) }
+        validateSpaceId()
     }
 
     fun getAuthenticationKey(): String {
-        return settings.applicationKey
+        return appKeyState.value.property
     }
 
-    fun loadSettings() {
-        settings.userId = userId.value
-        settings.spaceId = spaceId.value
-        settings.applicationKey = applicationKey.value
-        Log.d(
-            TAG,
-            "Settings for Wallee Portal ${userId.value}|${spaceId.value}|${applicationKey.value}"
-        )
+    fun setAuthenticationKey(authenticationKey: String) {
+        _appKeyState.update { it.copy(property = authenticationKey) }
+        validateApplicationKey()
     }
-
-    fun saveSettings() {
-        loadSettings()
-        _showSnackbar.value = true
-    }
-
-    val showSnackbar: LiveData<Boolean>
-        get() = _showSnackbar
-
-    private val _showSnackbar = MutableLiveData(false)
 
     fun dismissSnackbar() {
         _showSnackbar.value = false
     }
 
-    fun validateUserId() {
-        if (userId.value.length < 5) {
-            isUserIdValid.value = true
-            userIdErrMsg.value = "User id should be more than 5 chars"
+    fun saveSettings() {
+        _showSnackbar.value = true
+    }
+
+    fun isConfigSettingsEmpty(): Boolean {
+        return getUserId().isEmpty() && getSpaceId().isEmpty() && getAuthenticationKey().isEmpty()
+    }
+
+    private fun validateUserId() {
+        if (getUserId().length < 5) {
+            _userState.update {
+                it.copy(
+                    isInvalid = true,
+                    errorMessage = "User id should be more than 5 chars"
+                )
+            }
         } else {
-            isUserIdValid.value = false
-            userIdErrMsg.value = ""
+            _userState.update {
+                it.copy(
+                    isInvalid = false,
+                    errorMessage = ""
+                )
+            }
         }
         shouldEnableSaveConfigButton()
     }
 
-    fun validateSpaceId() {
-        if (spaceId.value.length < 5) {
-            isSpaceIdValid.value = true
-            spaceIdErrMsg.value = "Space id should be more than 5 chars"
+    private fun validateSpaceId() {
+        if (getSpaceId().length < 5) {
+            _spaceState.update {
+                it.copy(
+                    isInvalid = true,
+                    errorMessage = "Space id should be more than 5 chars"
+                )
+            }
+
         } else {
-            isSpaceIdValid.value = false
-            spaceIdErrMsg.value = ""
+            _spaceState.update {
+                it.copy(
+                    isInvalid = false,
+                    errorMessage = ""
+                )
+            }
         }
         shouldEnableSaveConfigButton()
     }
 
-    fun validateApplicationKey() {
-        if (applicationKey.value.length < 20) {
-            isApplicationKeyValid.value = true
-            applicationKeyErrMsg.value = "Application Key should be more than 20 chars"
+    private fun validateApplicationKey() {
+        if (getAuthenticationKey().length < 20) {
+            _appKeyState.update {
+                it.copy(
+                    isInvalid = true,
+                    errorMessage = "Application Key should be more than 20 chars"
+                )
+            }
         } else {
-            isApplicationKeyValid.value = false
-            applicationKeyErrMsg.value = ""
+            _appKeyState.update {
+                it.copy(
+                    isInvalid = false,
+                    errorMessage = ""
+                )
+            }
         }
         shouldEnableSaveConfigButton()
     }
 
     private fun shouldEnableSaveConfigButton() {
         isEnabledSavedButton.value =
-            userIdErrMsg.value.isEmpty() && spaceIdErrMsg.value.isEmpty() && applicationKeyErrMsg.value.isEmpty()
+            userState.value.errorMessage.isEmpty() && spaceState.value.errorMessage.isEmpty() && appKeyState.value.errorMessage.isEmpty()
     }
 
-    fun isConfigSettingsEmpty(): Boolean {
-        if(settings.spaceId.isEmpty() && settings.userId.isEmpty() && settings.applicationKey.isEmpty()){
-            return userId.value.isEmpty() && spaceId.value.isEmpty() && applicationKey.value.isEmpty()
-        }
-        return false;
-    }
 
 }

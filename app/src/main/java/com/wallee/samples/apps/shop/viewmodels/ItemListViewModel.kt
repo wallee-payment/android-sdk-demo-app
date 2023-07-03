@@ -1,11 +1,12 @@
 package com.wallee.samples.apps.shop.viewmodels
 
-import androidx.lifecycle.*
+import androidx.lifecycle.SavedStateHandle
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.wallee.samples.apps.shop.data.Item
 import com.wallee.samples.apps.shop.data.ItemRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -16,8 +17,9 @@ class ItemListViewModel @Inject internal constructor(
 ) : ViewModel() {
 
     private val defaultState: MutableStateFlow<Int> = MutableStateFlow(DEFAULT_KEY)
-    val items: LiveData<List<Item>> =
-        defaultState.flatMapLatest { itemRepository.getItems() }.asLiveData()
+    val items: StateFlow<List<Item>> = itemRepository.getItems()
+        .flatMapLatest { items -> flowOf(items) }
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(), emptyList())
 
     init {
         viewModelScope.launch {

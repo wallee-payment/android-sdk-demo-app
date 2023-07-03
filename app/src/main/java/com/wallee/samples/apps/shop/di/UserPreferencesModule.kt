@@ -4,6 +4,8 @@ import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
+import com.wallee.samples.apps.shop.data.UserPreferencesRepository
+import com.wallee.samples.apps.shop.data.UserPreferencesRepositoryImpl
 import dagger.Binds
 import dagger.Module
 import dagger.Provides

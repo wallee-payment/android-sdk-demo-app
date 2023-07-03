@@ -1,4 +1,4 @@
-package com.wallee.samples.apps.shop.di
+package com.wallee.samples.apps.shop.data
 
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences

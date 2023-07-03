@@ -102,7 +102,6 @@ fun HomePagerScreen(
         }
 
         val activity = (LocalContext.current as ShopActivity)
-        // Pages
         HorizontalPager(
             pageCount = pages.size,
             state = pagerState,
@@ -113,6 +112,8 @@ fun HomePagerScreen(
                     ShopCartScreen(
                         configViewModel = activity.configViewModel,
                         resultViewModel = activity.resultViewModel,
+                        itemAndMetadataListViewModel = activity.itemAndMetadataListViewModel,
+                        portalViewModel = activity.portalViewModel,
                         modifier = Modifier.fillMaxSize(),
                         onAddItemClick = {
                             coroutineScope.launch {
@@ -135,7 +136,7 @@ fun HomePagerScreen(
                 WalleeShopPage.ITEMS_LIST -> {
                     ItemListScreen(
                         onItemClick = onItemClick,
-                        modifier = Modifier.fillMaxSize(),
+                        itemListViewModel = activity.itemListViewModel
                     )
                 }
                 WalleeShopPage.CONFIG -> {

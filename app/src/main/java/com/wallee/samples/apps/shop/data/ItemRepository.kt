@@ -18,7 +18,6 @@ class ItemRepository @Inject constructor(private val itemDao: ItemDao) {
 
     companion object {
 
-        // For Singleton instantiation
         @Volatile
         private var instance: ItemRepository? = null
 

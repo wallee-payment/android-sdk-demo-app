@@ -16,7 +16,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.*
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
@@ -35,7 +34,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
-import androidx.hilt.navigation.compose.hiltViewModel
 import com.google.accompanist.themeadapter.material.MdcTheme
 import com.wallee.samples.apps.shop.R
 import com.wallee.samples.apps.shop.compose.Dimens
@@ -52,29 +50,30 @@ data class ItemDetailsCallbacks(
 
 @Composable
 fun ItemDetailsScreen(
-    detailsViewModel: ItemDetailViewModel = hiltViewModel(),
+    itemDetailViewModel: ItemDetailViewModel,
     onBackClick: () -> Unit,
 ) {
-    val item = detailsViewModel.item.observeAsState().value
-    val showSnackbar = detailsViewModel.showSnackbar.observeAsState().value
+    val item by itemDetailViewModel.item.collectAsState()
+    val showSnackbarState by itemDetailViewModel.showSnackbar.collectAsState()
 
-    if (item != null && showSnackbar != null) {
-        Surface {
-            TextSnackbarContainer(
-                snackbarText = stringResource(R.string.added_item_to_shop_cart),
-                showSnackbar = showSnackbar,
-                onDismissSnackbar = { detailsViewModel.dismissSnackbar() }
-            ) {
-                ItemDetails(
-                    item,
-                    ItemDetailsCallbacks(
-                        onBackClick = onBackClick,
-                        onFabClick = {
-                            detailsViewModel.addItemToShopCart()
-                        }
-                    )
-                )
-            }
+    item?.let {
+        ItemDetails(
+            item!!,
+            ItemDetailsCallbacks(
+                onBackClick = onBackClick,
+                onFabClick = {
+                    itemDetailViewModel.addItemToShopCart()
+                }
+            )
+        )
+    }
+
+    if (showSnackbarState) {
+        TextSnackbarContainer(
+            snackbarText = stringResource(R.string.added_item_to_shop_cart),
+            showSnackbar = showSnackbarState,
+            onDismissSnackbar = { itemDetailViewModel.dismissSnackbar() }
+        ) {
         }
     }
 }
@@ -216,7 +215,7 @@ private fun ItemTagImage(
             model = imageUrl,
             modifier = Modifier
                 .fillMaxSize(),
-            contentScale = ContentScale.Crop,
+            contentScale = ContentScale.Fit,
         )
     }
 }

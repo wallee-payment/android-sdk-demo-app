@@ -79,11 +79,7 @@ It is recommended to initialize the WalleePaymentSdk in [Application](app/src/ma
 
 ```
 @HiltAndroidApp
-class MainApplication : Application(), Configuration.Provider {
-    override fun getWorkManagerConfiguration(): Configuration =
-        Configuration.Builder()
-            .setMinimumLoggingLevel(if (BuildConfig.DEBUG) android.util.Log.DEBUG else android.util.Log.ERROR)
-            .build()
+class MainApplication : Application() {
 
     private val _paymentResultState = MutableLiveData<PaymentResult>()
     val paymentResultState: LiveData<PaymentResult> get() = _paymentResultState
@@ -97,6 +93,7 @@ class MainApplication : Application(), Configuration.Provider {
             }
         })
     }
+
 }
 ```
 
@@ -195,7 +192,7 @@ In the Shopping Cart Screen, the checkout button calls the Portal View Model to 
 associated with the it.
 
 ```
-portalViewModel.createToken(transaction, configViewModel.settings, launchSdk)
+portalViewModel.createToken(transaction, settings, launchSdk)
 ```
 
 A transaction holds information about the customer and the line items and tracks charge attempts and the payment state.
@@ -231,7 +228,7 @@ The POST call has the transaction body and the space Id from the Wallee Portal.
 ```
 @retrofit2.http.Headers("Content-Type: application/json")
 @POST("create")
-fun createTransaction(@Query("spaceId") spaceId: String, @Body body: String): Call<Transaction>
+suspend fun createTransaction(@Query("spaceId") spaceId: String, @Body body: String): retrofit2.Response<Transaction>
 ```
 
 ## Create Token
@@ -241,10 +238,10 @@ The access token is returned and passed to the Wallee Payment SDK.
 ```
 @POST("createTransactionCredentials")
 @retrofit2.http.Headers("Content-Type: application/json")
-fun createTransactionToken(
-    @Query("spaceId") spaceId: String,
-    @Query("id") id: Int
-): Call<String>
+suspend fun createTransactionToken(
+  @Query("spaceId") spaceId: String,
+  @Query("id") id: Int
+): retrofit2.Response<String>
 ```
 
 The same mechanism to generate the JWT token is used, but the request path is updated:

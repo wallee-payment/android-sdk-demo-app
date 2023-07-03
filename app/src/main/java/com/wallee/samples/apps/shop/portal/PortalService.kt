@@ -10,7 +10,6 @@ import io.jsonwebtoken.io.Decoders
 import io.jsonwebtoken.security.Keys
 import okhttp3.*
 import okhttp3.logging.HttpLoggingInterceptor
-import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.converter.scalars.ScalarsConverterFactory
@@ -25,15 +24,15 @@ interface PortalService {
 
     @retrofit2.http.Headers("Content-Type: application/json")
     @POST("create")
-    fun createTransaction(@Query("spaceId") spaceId: String, @Body body: String): Call<Transaction>
+    suspend fun createTransaction(@Query("spaceId") spaceId: String, @Body body: String): retrofit2.Response<Transaction>
 
 
     @POST("createTransactionCredentials")
     @retrofit2.http.Headers("Content-Type: application/json")
-    fun createTransactionToken(
+    suspend fun createTransactionToken(
         @Query("spaceId") spaceId: String,
         @Query("id") id: Int
-    ): Call<String>
+    ): retrofit2.Response<String>
 
     companion object {
         private const val BASE_URL = "https://app-wallee.com/api/transaction/"

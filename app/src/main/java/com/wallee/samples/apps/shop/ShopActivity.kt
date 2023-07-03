@@ -7,17 +7,13 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.WindowCompat
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.withStateAtLeast
 import com.google.accompanist.themeadapter.material.MdcTheme
 import com.wallee.samples.apps.shop.compose.WalleeShopApp
 import com.wallee.samples.apps.shop.data.Settings
+import com.wallee.samples.apps.shop.data.UserPreferencesEvent
 import com.wallee.samples.apps.shop.utilities.TAG
-import com.wallee.samples.apps.shop.viewmodels.ConfigViewModel
-import com.wallee.samples.apps.shop.viewmodels.MainEvent
-import com.wallee.samples.apps.shop.viewmodels.PreferencesViewModel
-import com.wallee.samples.apps.shop.viewmodels.ResultViewModel
+import com.wallee.samples.apps.shop.viewmodels.*
 import com.wallee.walleepaymentsdk.WalleePaymentSdk
-import com.wallee.walleepaymentsdk.enums.ThemeEnum
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -25,8 +21,12 @@ import kotlinx.coroutines.launch
 class ShopActivity : AppCompatActivity() {
 
     val resultViewModel: ResultViewModel by viewModels()
-    private val preferencesViewModel: PreferencesViewModel by viewModels()
     val configViewModel: ConfigViewModel by viewModels()
+    val itemAndMetadataListViewModel: ItemAndMetadataListViewModel by viewModels()
+    val portalViewModel: PortalViewModel by viewModels()
+    val itemListViewModel: ItemListViewModel by viewModels()
+    val itemDetailViewModel: ItemDetailViewModel by viewModels()
+    private val preferencesViewModel: PreferencesViewModel by viewModels()
     private var userIdPreferences = ""
     private var spaceIdPreferences = ""
     private var appKeyIdPreferences = ""
@@ -62,9 +62,26 @@ class ShopActivity : AppCompatActivity() {
 
 
     fun savePreferences(settings: Settings) {
-        cacheUserId(settings.userId)
-        cacheSpaceId(settings.spaceId)
-        cacheAppKey(settings.applicationKey)
+        lifecycleScope.launch {
+            preferencesViewModel.cacheUserId(userId = settings.userId).collect { event ->
+                userIdPreferences = settings.userId
+                updateViewOnEvent(event)
+            }
+        }
+
+        lifecycleScope.launch {
+            preferencesViewModel.cacheSpaceId(spaceId = settings.spaceId).collect { event ->
+                spaceIdPreferences = settings.spaceId
+                updateViewOnEvent(event)
+            }
+        }
+        lifecycleScope.launch {
+            preferencesViewModel.cacheApplicationKey(appKey = settings.applicationKey)
+                .collect { event ->
+                    appKeyIdPreferences = settings.applicationKey
+                    updateViewOnEvent(event)
+                }
+        }
     }
 
     private fun initWallee() {
@@ -80,91 +97,52 @@ class ShopActivity : AppCompatActivity() {
         }
     }
 
-    private fun updateViewOnEvent(event: MainEvent) {
+    private fun updateViewOnEvent(event: UserPreferencesEvent) {
         when (event) {
-            is MainEvent.UserIdCached -> {
+            is UserPreferencesEvent.UserIdCached -> {
                 Log.d(TAG, "User id stored in cache")
             }
-            is MainEvent.UserIdFetch -> {
+            is UserPreferencesEvent.UserIdFetch -> {
                 userIdPreferences = event.userId
                 Log.d(TAG, "User id fetch from cache: $userIdPreferences")
             }
-            is MainEvent.SpaceIdCached -> {
+            is UserPreferencesEvent.SpaceIdCached -> {
                 Log.d(TAG, "Space id stored in cache")
             }
-            is MainEvent.SpaceFetch -> {
+            is UserPreferencesEvent.SpaceFetch -> {
                 spaceIdPreferences = event.spaceId
                 Log.d(TAG, "Space id fetch from cache: $spaceIdPreferences")
             }
 
-            is MainEvent.AppKeyCached -> {
+            is UserPreferencesEvent.AppKeyCached -> {
                 Log.d(TAG, "App key stored in cache")
             }
-            is MainEvent.AppKeyFetch -> {
+            is UserPreferencesEvent.AppKeyFetch -> {
                 appKeyIdPreferences = event.appKey
                 Log.d(TAG, "App Key fetch from cache: $appKeyIdPreferences")
             }
         }
     }
 
-    private fun cacheUserId(userId: String) {
-        lifecycleScope.launch {
-            preferencesViewModel.cacheUserId(userId = userId).collect { event ->
-                userIdPreferences = userId
-                updateViewOnEvent(event)
-            }
-        }
-    }
 
-    private fun fetchUserId() {
+    private fun fetchFromPreferences() {
         lifecycleScope.launch {
             preferencesViewModel.getCachedUserId().collect { event ->
                 updateViewOnEvent(event)
             }
         }
-    }
-
-    private fun cacheSpaceId(spaceId: String) {
-        lifecycleScope.launch {
-            preferencesViewModel.cacheSpaceId(spaceId = spaceId).collect { event ->
-                spaceIdPreferences = spaceId
-                updateViewOnEvent(event)
-            }
-        }
-    }
-
-    private fun fetchSpaceId() {
         lifecycleScope.launch {
             preferencesViewModel.getCachedSpaceId().collect { event ->
                 updateViewOnEvent(event)
             }
         }
-    }
-
-    private fun cacheAppKey(appKey: String) {
-        lifecycleScope.launch {
-            preferencesViewModel.cacheApplicationKey(appKey = appKey).collect { event ->
-                appKeyIdPreferences = appKey
-                updateViewOnEvent(event)
-            }
-        }
-    }
-
-    private fun fetchAppKey() {
         lifecycleScope.launch {
             preferencesViewModel.getCachedApplicationKey().collect { event ->
                 updateViewOnEvent(event)
             }
         }
-    }
-
-    private fun fetchFromPreferences() {
-        fetchUserId()
-        fetchSpaceId()
-        fetchAppKey()
-        configViewModel.userId.value = userIdPreferences
-        configViewModel.spaceId.value = spaceIdPreferences
-        configViewModel.applicationKey.value = appKeyIdPreferences
-        configViewModel.loadSettings()
+        configViewModel.setUserId(userIdPreferences)
+        configViewModel.setSpaceId(spaceIdPreferences)
+        configViewModel.setAuthenticationKey(appKeyIdPreferences)
     }
 }

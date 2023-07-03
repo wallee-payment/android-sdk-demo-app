@@ -5,7 +5,6 @@ import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.runtime.*
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
@@ -15,7 +14,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import com.wallee.samples.apps.shop.R
 import com.wallee.samples.apps.shop.compose.card
 import com.wallee.samples.apps.shop.compose.utils.TextSnackbarContainer
@@ -26,10 +24,10 @@ import com.wallee.samples.apps.shop.viewmodels.ConfigViewModel
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun ConfigScreen(
-    configViewModel: ConfigViewModel = hiltViewModel(),
+    configViewModel: ConfigViewModel,
     cacheSettings: (Settings) -> Unit,
 ) {
-    val showSnackbar = configViewModel.showSnackbar.observeAsState().value
+    val showSnackbar by configViewModel.showSnackbar.collectAsState()
     val keyboardController = LocalSoftwareKeyboardController.current
 
     Box(
@@ -47,7 +45,7 @@ fun ConfigScreen(
             ShowApplicationKey(configViewModel, keyboardController)
             ShowSaveButton(viewModel = configViewModel, cacheSettings)
 
-            if (showSnackbar != null) {
+            if (showSnackbar) {
                 TextSnackbarContainer(
                     snackbarText = stringResource(R.string.added_config),
                     showSnackbar = showSnackbar,
@@ -102,10 +100,11 @@ private fun ShowApplicationKey(
     viewModel: ConfigViewModel,
     keyboardController: SoftwareKeyboardController?
 ) {
+    val appKey by viewModel.appKeyState.collectAsState()
 
     Column {
         OutlinedTextField(
-            value = viewModel.applicationKey.value,
+            value = appKey.property,
             label = { Text(text = stringResource(id = R.string.config_auth_key)) },
             keyboardOptions = KeyboardOptions(
                 keyboardType = KeyboardType.Text,
@@ -113,13 +112,12 @@ private fun ShowApplicationKey(
             ),
             keyboardActions = KeyboardActions(onDone = { keyboardController?.hide() }),
             onValueChange = {
-                viewModel.applicationKey.value = it
-                viewModel.validateApplicationKey()
+                viewModel.setAuthenticationKey(it)
             },
-            isError = viewModel.isApplicationKeyValid.value
+            isError = appKey.isInvalid
         )
         Text(
-            text = viewModel.applicationKeyErrMsg.value,
+            text = appKey.errorMessage,
             color = MaterialTheme.colors.onError
         )
     }
@@ -128,22 +126,23 @@ private fun ShowApplicationKey(
 @Composable
 private fun ShowSpaceId(viewModel: ConfigViewModel) {
 
+    val space by viewModel.spaceState.collectAsState()
+
     Column {
         OutlinedTextField(
-            value = viewModel.spaceId.value,
+            value = space.property,
             label = { Text(text = stringResource(id = R.string.config_space_id)) },
             keyboardOptions = KeyboardOptions(
                 keyboardType = KeyboardType.Number,
                 imeAction = ImeAction.Next
             ),
             onValueChange = {
-                viewModel.spaceId.value = it
-                viewModel.validateSpaceId()
+                viewModel.setSpaceId(it)
             },
-            isError = viewModel.isSpaceIdValid.value
+            isError = space.isInvalid
         )
         Text(
-            text = viewModel.spaceIdErrMsg.value,
+            text = space.errorMessage,
             color = MaterialTheme.colors.onError
         )
     }
@@ -152,22 +151,23 @@ private fun ShowSpaceId(viewModel: ConfigViewModel) {
 @Composable
 private fun ShowUserId(viewModel: ConfigViewModel) {
 
+    val user by viewModel.userState.collectAsState()
+
     Column {
         OutlinedTextField(
-            value = viewModel.userId.value,
+            value = user.property,
             label = { Text(text = stringResource(id = R.string.config_user_id)) },
             keyboardOptions = KeyboardOptions(
                 keyboardType = KeyboardType.Number,
                 imeAction = ImeAction.Next
             ),
             onValueChange = {
-                viewModel.userId.value = it
-                viewModel.validateUserId()
+                viewModel.setUserId(it)
             },
-            isError = viewModel.isUserIdValid.value
+            isError = user.isInvalid
         )
         Text(
-            text = viewModel.userIdErrMsg.value,
+            text = user.errorMessage,
             color = MaterialTheme.colors.onError
         )
     }

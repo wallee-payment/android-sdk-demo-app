@@ -2,6 +2,8 @@ package com.wallee.samples.apps.shop.compose
 
 import androidx.appcompat.widget.Toolbar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
@@ -21,9 +23,7 @@ fun WalleeShopApp(
 ) {
     val navController = rememberNavController()
     WalleeShopNavHost(
-        navController = navController,
-        onPageChange = onPageChange,
-        onAttached = onAttached
+        navController = navController, onPageChange = onPageChange, onAttached = onAttached
     )
 }
 
@@ -34,31 +34,30 @@ fun WalleeShopNavHost(
     onAttached: (Toolbar) -> Unit = {},
 ) {
     val activity = (LocalContext.current as ShopActivity)
+    val itemIdInput = remember { mutableStateOf("") }
+
     NavHost(navController = navController, startDestination = "home") {
         composable("home") {
-            HomeScreen(
-                onItemClick = {
-                    navController.navigate("itemDetail/${it.itemId}")
-                },
-                launchSdk = {
-                    activity.launchSdkFromActivity(it)
-                },
-                cacheSettings = {
-                    activity.savePreferences(it)
-                },
-                onPageChange = onPageChange,
-                onAttached = onAttached
+            HomeScreen(onItemClick = {
+                navController.navigate("itemDetail/${it.itemId}")
+            }, launchSdk = {
+                activity.launchSdkFromActivity(it)
+            }, cacheSettings = {
+                activity.savePreferences(it)
+            }, onPageChange = onPageChange, onAttached = onAttached
             )
         }
         composable(
-            "itemDetail/{itemId}",
-            arguments = listOf(navArgument("itemId") {
+            "itemDetail/{itemId}", arguments = listOf(navArgument("itemId") {
                 type = NavType.StringType
             })
-        ) {
+        ) { backStackEntry ->
+            val itemId =
+                remember { backStackEntry.arguments?.getString("itemId") ?: itemIdInput.value }
+            activity.itemDetailViewModel.setItemId(itemId)
             ItemDetailsScreen(
-                onBackClick = { navController.navigateUp() }
-            )
+                itemDetailViewModel = activity.itemDetailViewModel,
+                onBackClick = { navController.navigateUp() })
         }
     }
 }

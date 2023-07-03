@@ -1,18 +1,21 @@
 package com.wallee.samples.apps.shop.data
 
 import android.content.Context
+import android.util.Log
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import androidx.sqlite.db.SupportSQLiteDatabase
-import androidx.work.OneTimeWorkRequestBuilder
-import androidx.work.WorkManager
-import androidx.work.workDataOf
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
+import com.google.gson.stream.JsonReader
 import com.wallee.samples.apps.shop.utilities.DATABASE_NAME
 import com.wallee.samples.apps.shop.utilities.ITEMS_DATA_FILENAME
-import com.wallee.samples.apps.shop.workers.DatabaseWorker
-import com.wallee.samples.apps.shop.workers.DatabaseWorker.Companion.KEY_FILENAME
+import com.wallee.samples.apps.shop.utilities.TAG
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 @Database(entities = [ItemMetadata::class, Item::class], version = 1, exportSchema = false)
 @TypeConverters(Converters::class)
@@ -37,10 +40,24 @@ abstract class AppDatabase : RoomDatabase() {
                     object : Callback() {
                         override fun onCreate(db: SupportSQLiteDatabase) {
                             super.onCreate(db)
-                            val request = OneTimeWorkRequestBuilder<DatabaseWorker>()
-                                .setInputData(workDataOf(KEY_FILENAME to ITEMS_DATA_FILENAME))
-                                .build()
-                            WorkManager.getInstance(context).enqueue(request)
+                            CoroutineScope(Dispatchers.IO).launch {
+                                try {
+                                    val filename = ITEMS_DATA_FILENAME
+                                    context.assets.open(filename)
+                                        .use { inputStream ->
+                                            JsonReader(inputStream.reader()).use { jsonReader ->
+                                                val itemType =
+                                                    object : TypeToken<List<Item>>() {}.type
+                                                val itemList: List<Item> =
+                                                    Gson().fromJson(jsonReader, itemType)
+                                                val itemDao = getInstance(context).itemDao()
+                                                itemDao.insertAll(itemList)
+                                            }
+                                        }
+                                } catch (ex: Exception) {
+                                    Log.e(TAG, "Database error: ", ex)
+                                }
+                            }
                         }
                     }
                 )

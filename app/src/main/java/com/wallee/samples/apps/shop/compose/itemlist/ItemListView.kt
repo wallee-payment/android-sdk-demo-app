@@ -38,7 +38,7 @@ fun ImageListItem(name: String, price: Int, imageUrl: String, onClick: () -> Uni
                 Modifier
                     .fillMaxWidth()
                     .height(dimensionResource(id = R.dimen.item_image_height)),
-                contentScale = ContentScale.Crop
+                contentScale = ContentScale.Fit
             )
             Text(
                 text = name,

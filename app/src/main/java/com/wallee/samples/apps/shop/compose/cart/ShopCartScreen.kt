@@ -9,17 +9,14 @@ import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.material.*
 import androidx.compose.runtime.*
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import com.google.gson.Gson
 import com.wallee.samples.apps.shop.R
 import com.wallee.samples.apps.shop.compose.card
@@ -27,6 +24,7 @@ import com.wallee.samples.apps.shop.compose.config.*
 import com.wallee.samples.apps.shop.compose.utils.ItemImage
 import com.wallee.samples.apps.shop.compose.utils.TextSnackbarContainer
 import com.wallee.samples.apps.shop.data.ItemAndMetadata
+import com.wallee.samples.apps.shop.data.Settings
 import com.wallee.samples.apps.shop.data.portal.LineItems
 import com.wallee.samples.apps.shop.data.portal.Transaction
 import com.wallee.samples.apps.shop.viewmodels.*
@@ -36,17 +34,17 @@ import java.util.*
 @Composable
 fun ShopCartScreen(
     modifier: Modifier = Modifier,
-    viewModel: ItemAndMetadataListViewModel = hiltViewModel(),
-    configViewModel: ConfigViewModel = hiltViewModel(),
+    itemAndMetadataListViewModel: ItemAndMetadataListViewModel,
+    configViewModel: ConfigViewModel,
     resultViewModel: ResultViewModel,
-    portalViewModel: PortalViewModel = hiltViewModel(),
+    portalViewModel: PortalViewModel,
     onAddItemClick: () -> Unit,
     onEmptyConfigClick: () -> Unit,
     onItemClick: (ItemAndMetadata) -> Unit,
     launchSdk: (String) -> Unit
 ) {
-    val itemList by viewModel.itemAndMetadata.collectAsState(initial = emptyList())
-    val showPaymentResult = resultViewModel.showPaymentResult.observeAsState().value
+    val itemList by itemAndMetadataListViewModel.itemAndMetadata.collectAsState(initial = emptyList())
+    val showPaymentResult by resultViewModel.showPaymentResult.collectAsState()
 
     if (itemList.isEmpty()) {
         EmptyShopCart(onAddItemClick, modifier)
@@ -74,7 +72,7 @@ fun ShopCartScreen(
                     showPaymentResult,
                     resultViewModel,
                     itemList,
-                    viewModel,
+                    itemAndMetadataListViewModel,
                     configViewModel,
                     portalViewModel,
                     launchSdk,
@@ -87,7 +85,7 @@ fun ShopCartScreen(
 
 @Composable
 private fun Checkout(
-    showPaymentResult: Boolean?,
+    showPaymentResult: Boolean,
     resultViewModel: ResultViewModel,
     itemList: List<ItemAndMetadata>,
     viewModel: ItemAndMetadataListViewModel,
@@ -96,7 +94,7 @@ private fun Checkout(
     launchSdk: (String) -> Unit,
     onEmptyConfigClick: () -> Unit
 ) {
-    if (showPaymentResult != null && showPaymentResult) {
+    if (showPaymentResult) {
         Snackbar(
             action = {
                 Button(
@@ -127,7 +125,6 @@ private fun Checkout(
     }
 
     val (snackbarVisibleState, setSnackBarState) = remember { mutableStateOf(false) }
-    val context = LocalContext.current
 
     Button(
         colors = ButtonDefaults.buttonColors(backgroundColor = MaterialTheme.colors.primary),
@@ -138,9 +135,12 @@ private fun Checkout(
                 setSnackBarState(true)
             } else {
                 val transaction = createTransaction(itemList.sumOf { item -> item.item.price })
-                portalViewModel.createToken(
-                    transaction, configViewModel.settings, launchSdk
+                val settings = Settings(
+                    configViewModel.getUserId(),
+                    configViewModel.getSpaceId(),
+                    configViewModel.getAuthenticationKey()
                 )
+                portalViewModel.createToken(transaction, settings, launchSdk)
             }
         }) {
         Text(
@@ -150,13 +150,13 @@ private fun Checkout(
         )
     }
 
-    val showException = portalViewModel.showResult.observeAsState().value
-    if (showException != null) {
+    val showException by portalViewModel.showResult.collectAsState()
+    if (showException) {
         TextSnackbarContainer(
-            snackbarText =  "Failed because of token creation/transaction! Check your credentials!",
+            snackbarText = "Failed because of token creation/transaction! Check your credentials!",
             showSnackbar = showException,
             onDismissSnackbar = { portalViewModel.dismissResult() }
-        ){}
+        ) {}
     }
 
     if (snackbarVisibleState) {
@@ -223,7 +223,7 @@ private fun ShopListItem(
                 Modifier
                     .fillMaxWidth()
                     .height(dimensionResource(id = R.dimen.item_image_height)),
-                contentScale = ContentScale.Crop,
+                contentScale = ContentScale.Fit,
             )
 
             // Item name

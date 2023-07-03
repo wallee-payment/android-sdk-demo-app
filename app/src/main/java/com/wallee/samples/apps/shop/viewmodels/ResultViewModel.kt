@@ -1,7 +1,5 @@
 package com.wallee.samples.apps.shop.viewmodels
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -20,10 +18,10 @@ class ResultViewModel : ViewModel() {
         return paymentResult.value
     }
 
-    val showPaymentResult: LiveData<Boolean>
+    val showPaymentResult: StateFlow<Boolean>
         get() = _showPaymentResult
 
-    private val _showPaymentResult = MutableLiveData(false)
+    private val _showPaymentResult = MutableStateFlow(false)
 
     fun dismissPaymentResultSnackbar() {
         _paymentResult.value = ""
