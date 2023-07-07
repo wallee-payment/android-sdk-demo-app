@@ -30,11 +30,9 @@ import androidx.compose.ui.layout.positionInWindow
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
-import com.google.accompanist.themeadapter.material.MdcTheme
 import com.wallee.samples.apps.shop.R
 import com.wallee.samples.apps.shop.compose.Dimens
 import com.wallee.samples.apps.shop.compose.utils.ItemImage
@@ -54,7 +52,7 @@ fun ItemDetailsScreen(
     onBackClick: () -> Unit,
 ) {
     val item by itemDetailViewModel.item.collectAsState()
-    val showSnackbarState by itemDetailViewModel.showSnackbar.collectAsState()
+//    val showSnackbarState by itemDetailViewModel.showSnackbar.collectAsState()
 
     item?.let {
         ItemDetails(
@@ -64,17 +62,9 @@ fun ItemDetailsScreen(
                 onFabClick = {
                     itemDetailViewModel.addItemToShopCart()
                 }
-            )
+            ),
+            itemDetailViewModel
         )
-    }
-
-    if (showSnackbarState) {
-        TextSnackbarContainer(
-            snackbarText = stringResource(R.string.added_item_to_shop_cart),
-            showSnackbar = showSnackbarState,
-            onDismissSnackbar = { itemDetailViewModel.dismissSnackbar() }
-        ) {
-        }
     }
 }
 
@@ -82,7 +72,8 @@ fun ItemDetailsScreen(
 fun ItemDetails(
     item: Item,
     callbacks: ItemDetailsCallbacks,
-    modifier: Modifier = Modifier
+    itemDetailViewModel: ItemDetailViewModel,
+    modifier: Modifier = Modifier,
 ) {
     val scrollState = rememberScrollState()
     var itemScroller by remember {
@@ -145,7 +136,8 @@ fun ItemDetails(
                 maxOf(candidateHeight, 1.dp)
             },
             onFabClick = callbacks.onFabClick,
-            contentAlpha = { contentAlpha.value }
+            contentAlpha = { contentAlpha.value },
+            itemDetailViewModel = itemDetailViewModel
         )
         ItemToolbar(
             toolbarState, item.name, callbacks,
@@ -164,6 +156,7 @@ private fun ItemDetailsContent(
     onNamePosition: (Float) -> Unit,
     onFabClick: () -> Unit,
     contentAlpha: () -> Float,
+    itemDetailViewModel: ItemDetailViewModel
 ) {
     Column(Modifier.verticalScroll(scrollState)) {
         ConstraintLayout {
@@ -185,7 +178,8 @@ private fun ItemDetailsContent(
                 modifier = Modifier.constrainAs(info) {
                     top.linkTo(image.bottom)
                 },
-                onFabClick = onFabClick
+                onFabClick = onFabClick,
+                itemDetailViewModel = itemDetailViewModel
             )
         }
     }
@@ -319,6 +313,7 @@ private fun ItemInformation(
     toolbarState: ToolbarState,
     modifier: Modifier = Modifier,
     onFabClick: () -> Unit,
+    itemDetailViewModel: ItemDetailViewModel
 ) {
     Column(modifier = modifier.padding(Dimens.PaddingLarge)) {
         Text(
@@ -346,7 +341,7 @@ private fun ItemInformation(
                 .align(Alignment.Start)
                 .onGloballyPositioned { onNamePosition(it.positionInWindow().y) }
         )
-        BuyButton(price, onFabClick)
+        BuyButton(price, onFabClick, itemDetailViewModel)
     }
 }
 
@@ -354,7 +349,10 @@ private fun ItemInformation(
 private fun BuyButton(
     price: Int,
     onFabClick: () -> Unit,
+    itemDetailViewModel: ItemDetailViewModel
 ) {
+    val showSnackbarState by itemDetailViewModel.showSnackbar.collectAsState()
+
     Button(
         onClick = onFabClick,
         colors = ButtonDefaults.buttonColors(backgroundColor = MaterialTheme.colors.primary),
@@ -377,17 +375,12 @@ private fun BuyButton(
             color = MaterialTheme.colors.onPrimary
         )
     }
-}
 
-@Preview
-@Composable
-private fun ItemDetailContentPreview() {
-    MdcTheme {
-        Surface {
-            ItemDetails(
-                Item("itemId", "Tomato", "HTML<br>description", 6, "url"),
-                ItemDetailsCallbacks({ }, { })
-            )
-        }
+    if (showSnackbarState) {
+        TextSnackbarContainer(
+            snackbarText = stringResource(R.string.added_item_to_shop_cart),
+            showSnackbar = showSnackbarState,
+            onDismissSnackbar = { itemDetailViewModel.dismissSnackbar() }
+        ) {}
     }
 }
