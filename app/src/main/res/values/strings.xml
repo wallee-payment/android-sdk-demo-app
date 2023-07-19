@@ -1,7 +1,7 @@
 <resources>
 
     <!-- Resources that do not require translation -->
-    <string name="app_name" translatable="false">Wallee Shop</string>
+    <string name="app_name" translatable="false">wallee Demo</string>
 
     <!-- Translatable resources -->
     <string name="menu_title" translation_description="The label for the menu item.">Item Menu</string>
