@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1088439392693",
+    "project_id": "msdk-demo-app-8d276",
+    "storage_bucket": "msdk-demo-app-8d276.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1088439392693:android:95e0317bdf9e3558a021fc",
+        "android_client_info": {
+          "package_name": "com.wallee.samples.apps.shop"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA7WlZjMiTgTX1MbSGU_SOSK6AOYlbyL_k"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
