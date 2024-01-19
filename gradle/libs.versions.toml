@@ -40,7 +40,7 @@ runner = "1.0.1"
 targetSdk = "33"
 tracing = "1.1.0"
 viewModelCompose = "2.5.1"
-walleePaymentSdk = "1.1.0"
+walleePaymentSdk = "1.2.0"
 work = "2.7.1"
 
 [libraries]
