@@ -82,3 +82,6 @@ fabric.properties
 .idea
 
 .DS_Store
+
+
+/app/release
