@@ -16,7 +16,7 @@ android {
         minSdk = libs.versions.minSdk.get().toInt()
         targetSdk = libs.versions.targetSdk.get().toInt()
         versionCode = 4
-        versionName = "1.2.0"
+        versionName = "1.2.0-postfinance-staging"
         vectorDrawables.useSupportLibrary = true
     }
     buildTypes {
@@ -93,12 +93,48 @@ dependencies {
     implementation(libs.hilt.navigation.compose)
     implementation(libs.androidx.profileinstaller)
     implementation(libs.androidx.tracing.ktx)
-    //Wallee Payment SDK
-//    implementation(libs.wallee.payment.sdk)
-//    implementation(":postfinance-checkout-sdk-staging")
-//    api(":postfinance-checkout-sdk-staging")
+    // Wallee Payment SDK
+    // implementation(libs.wallee.payment.sdk)
+
+    // POSTFINANCE SDK
     api(project(":postfinance-checkout-sdk-staging"))
-//    implementation fileTree(include: ['*.jar', '*.aar'], dir: 'libs')
+
+    //-----------============= DEPENDENCIES FOR AAR FILE!!!!!!  POSTFINANCE
+    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.7.10")
+    implementation("com.wallee.resources:twint-sdk:1.2.0")
+    implementation("com.wallee.resources:react-native:1.0.0")
+    implementation("com.wallee.resources:hermes-engine:1.0.0")
+    implementation("com.wallee.resources:android-jsc:1.0.0")
+    implementation("com.facebook.infer.annotation:infer-annotation:0.18.0")
+    implementation("com.facebook.yoga:proguard-annotations:1.19.0")
+    implementation("javax.inject:javax.inject:1")
+    implementation("androidx.appcompat:appcompat:1.4.1")
+    implementation("androidx.appcompat:appcompat-resources:1.4.1")
+    implementation("androidx.autofill:autofill:1.1.0")
+    implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.0.0")
+    implementation("com.facebook.fresco:fresco:2.5.0")
+    implementation("com.facebook.fresco:imagepipeline-okhttp3:2.5.0")
+    implementation("com.facebook.fresco:ui-common:2.5.0")
+    implementation("com.facebook.soloader:soloader:0.10.5")
+    implementation("com.google.code.findbugs:jsr305:3.0.2")
+    implementation("com.squareup.okhttp3:okhttp:4.9.2")
+    implementation("com.squareup.okhttp3:okhttp-urlconnection:4.9.2")
+    implementation("com.squareup.okio:okio:2.9.0")
+    implementation("com.facebook.fbjni:fbjni-java-only:0.2.2")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.1")
+    implementation("org.jetbrains.kotlin:kotlin-android-extensions-runtime:1.7.10")
+    implementation("androidx.constraintlayout:constraintlayout:2.1.4")
+    implementation("com.wallee.resources:react-native-async-storage_async-storage:1.2.0")
+    implementation("com.wallee.resources:react-native-community_datetimepicker:1.2.0")
+    implementation("com.wallee.resources:react-native-community_netinfo:1.2.0")
+    implementation("com.wallee.resources:react-native-device-info:1.2.0")
+    implementation("com.wallee.resources:react-native-file-access:1.2.0")
+    implementation("com.wallee.resources:react-native-hash:1.2.0")
+    implementation("com.wallee.resources:react-native-svg:1.2.0")
+    implementation("com.wallee.resources:react-native-webview:1.2.0")
+    //-----------=============
+
+
 
     // Compose
     implementation(platform(libs.androidx.compose.bom))

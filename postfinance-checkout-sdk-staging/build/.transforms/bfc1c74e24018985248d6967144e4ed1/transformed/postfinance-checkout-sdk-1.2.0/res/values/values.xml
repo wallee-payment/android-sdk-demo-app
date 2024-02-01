@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="bottom_corner_radius">0dp</dimen>
+    <dimen name="top_corner_radius">20dp</dimen>
+    <integer name="bottom_sheet_gravity">200</integer>
+    <integer name="bottom_sheet_height">50</integer>
+    <integer name="bottom_sheet_width">100</integer>
+    <string name="app_name">PostFinanceCheckoutSdk</string>
+    <style name="Theme.BottomSheet" parent="Theme.Design.Light.BottomSheetDialog">
+    <item name="android:windowBackground">@drawable/background</item>
+    <item name="android:windowNoTitle">true</item>
+    <item name="android:windowIsFloating">true</item>
+    <item name="android:windowContentOverlay">@null</item>
+    <item name="android:windowIsTranslucent">true</item>
+    <item name="android:windowCloseOnTouchOutside">false</item>
+  </style>
+</resources>

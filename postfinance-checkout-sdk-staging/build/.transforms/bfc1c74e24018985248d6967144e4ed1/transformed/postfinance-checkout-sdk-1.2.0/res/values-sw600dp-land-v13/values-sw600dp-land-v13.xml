@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="bottom_corner_radius">20dp</dimen>
+    <dimen name="top_corner_radius">20dp</dimen>
+    <integer name="bottom_sheet_height">70</integer>
+    <integer name="bottom_sheet_width">50</integer>
+</resources>

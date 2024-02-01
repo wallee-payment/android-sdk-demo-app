@@ -60,15 +60,13 @@ interface PortalService {
                 .setLenient()
                 .create()
 
-            val result = Retrofit.Builder()
+            return Retrofit.Builder()
                 .baseUrl(BASE_URL)
                 .client(client)
                 .addConverterFactory(ScalarsConverterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .build()
                 .create(PortalService::class.java)
-
-            return result
         }
 
         private fun getJwtToken(accessKey: String, userId: String, requestPath: String): String {

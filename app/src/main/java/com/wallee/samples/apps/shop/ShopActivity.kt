@@ -50,16 +50,15 @@ class ShopActivity : AppCompatActivity() {
     }
 
     fun launchSdkFromActivity(token: String) {
-        Log.e("MSDK-moje", "token: " + token )
-//        PostFinanceCheckoutSdk.instance?.launch(
-//            token,
-//            this
-//        ) ?: run {
-//            Log.e(
-//                TAG,
-//                "SDK is not initialized. Did you forget to run init on Application?"
-//            )
-//        }
+        PostFinanceCheckoutSdk.instance?.launch(
+            token,
+            this
+        ) ?: run {
+            Log.e(
+                TAG,
+                "SDK is not initialized. Did you forget to run init on Application?"
+            )
+        }
     }
 
 
