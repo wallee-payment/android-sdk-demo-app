@@ -35,7 +35,7 @@ interface PortalService {
     ): retrofit2.Response<String>
 
     companion object {
-        private const val BASE_URL = "https://app-wallee.com/api/transaction/"
+        private const val BASE_URL = "https://checkout.postfinance.ch/api/transaction/"
 
         fun create(accessKey: String, userId: String, requestPath: String): PortalService {
             val logger = HttpLoggingInterceptor().apply {
@@ -60,13 +60,15 @@ interface PortalService {
                 .setLenient()
                 .create()
 
-            return Retrofit.Builder()
+            val result = Retrofit.Builder()
                 .baseUrl(BASE_URL)
                 .client(client)
                 .addConverterFactory(ScalarsConverterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .build()
                 .create(PortalService::class.java)
+
+            return result
         }
 
         private fun getJwtToken(accessKey: String, userId: String, requestPath: String): String {

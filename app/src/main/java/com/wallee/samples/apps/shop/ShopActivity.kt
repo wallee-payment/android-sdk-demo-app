@@ -7,13 +7,14 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.WindowCompat
 import androidx.lifecycle.lifecycleScope
+import ch.postfinance.PostFinanceCheckoutSdk
 import com.google.accompanist.themeadapter.material.MdcTheme
 import com.wallee.samples.apps.shop.compose.WalleeShopApp
 import com.wallee.samples.apps.shop.data.Settings
 import com.wallee.samples.apps.shop.data.UserPreferencesEvent
 import com.wallee.samples.apps.shop.utilities.TAG
 import com.wallee.samples.apps.shop.viewmodels.*
-import com.wallee.walleepaymentsdk.WalleePaymentSdk
+//import com.wallee.walleepaymentsdk.WalleePaymentSdk
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -49,15 +50,16 @@ class ShopActivity : AppCompatActivity() {
     }
 
     fun launchSdkFromActivity(token: String) {
-        WalleePaymentSdk.instance?.launch(
-            token,
-            this
-        ) ?: run {
-            Log.e(
-                TAG,
-                "SDK is not initialized. Did you forget to run init on Application?"
-            )
-        }
+        Log.e("MSDK-moje", "token: " + token )
+//        PostFinanceCheckoutSdk.instance?.launch(
+//            token,
+//            this
+//        ) ?: run {
+//            Log.e(
+//                TAG,
+//                "SDK is not initialized. Did you forget to run init on Application?"
+//            )
+//        }
     }
 
 

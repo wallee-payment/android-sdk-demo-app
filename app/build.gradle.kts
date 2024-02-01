@@ -94,7 +94,11 @@ dependencies {
     implementation(libs.androidx.profileinstaller)
     implementation(libs.androidx.tracing.ktx)
     //Wallee Payment SDK
-    implementation(libs.wallee.payment.sdk)
+//    implementation(libs.wallee.payment.sdk)
+//    implementation(":postfinance-checkout-sdk-staging")
+//    api(":postfinance-checkout-sdk-staging")
+    api(project(":postfinance-checkout-sdk-staging"))
+//    implementation fileTree(include: ['*.jar', '*.aar'], dir: 'libs')
 
     // Compose
     implementation(platform(libs.androidx.compose.bom))

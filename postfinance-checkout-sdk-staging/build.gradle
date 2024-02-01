@@ -1,0 +1,5 @@
+def aarName = 'postfinance-checkout-sdk-1.2.0.aar'
+
+configurations.maybeCreate("default")
+artifacts.add("default", file(aarName))
+

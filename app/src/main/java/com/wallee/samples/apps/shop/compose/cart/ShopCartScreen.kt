@@ -17,6 +17,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import ch.postfinance.enums.PaymentResultEnum
 import com.google.gson.Gson
 import com.wallee.samples.apps.shop.R
 import com.wallee.samples.apps.shop.compose.card
@@ -28,7 +29,7 @@ import com.wallee.samples.apps.shop.data.Settings
 import com.wallee.samples.apps.shop.data.portal.LineItems
 import com.wallee.samples.apps.shop.data.portal.Transaction
 import com.wallee.samples.apps.shop.viewmodels.*
-import com.wallee.walleepaymentsdk.enums.PaymentResultEnum
+//import com.wallee.walleepaymentsdk.enums.PaymentResultEnum
 import java.util.*
 
 @Composable

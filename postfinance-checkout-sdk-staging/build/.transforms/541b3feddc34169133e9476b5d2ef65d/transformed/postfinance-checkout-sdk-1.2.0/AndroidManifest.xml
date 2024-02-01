@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="ch.postfinance" >
+
+    <uses-sdk
+        android:minSdkVersion="24"
+        android:targetSdkVersion="32" />
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+
+    <application
+        android:usesCleartextTraffic="true"
+        tools:targetApi="28" >
+        <activity android:name="com.facebook.react.devsupport.DevSettingsActivity" />
+        <activity
+            android:name="ch.postfinance.activities.MainReactActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout"
+            android:label="@string/app_name"
+            android:theme="@style/Theme.BottomSheet"
+            android:windowSoftInputMode="stateVisible|adjustResize|adjustPan" >
+        </activity>
+        <activity
+            android:name="ch.postfinance.activities.SplashScreenActivity"
+            android:label="@string/app_name"
+            android:theme="@style/Theme.BottomSheet" >
+        </activity>
+        <activity
+            android:name="ch.postfinance.activities.SplashScreenActivity"
+            android:label="@string/app_name"
+            android:theme="@style/Theme.BottomSheet" >
+        </activity>
+    </application>
+
+</manifest>

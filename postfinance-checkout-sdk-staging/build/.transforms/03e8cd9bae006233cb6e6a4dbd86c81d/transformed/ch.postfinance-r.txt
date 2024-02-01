@@ -1,0 +1,12 @@
+ch.postfinance
+dimen bottom_corner_radius
+dimen top_corner_radius
+drawable background
+id splashScreenLayout
+id splashScreenProgressBar
+integer bottom_sheet_gravity
+integer bottom_sheet_height
+integer bottom_sheet_width
+layout splash_screen
+string app_name
+style Theme_BottomSheet
