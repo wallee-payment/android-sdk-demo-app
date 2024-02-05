@@ -284,7 +284,7 @@ fun createTransaction(sumOf: Int): String {
         amountIncludingTax = sumOf,
         name = "items-demo-shop",
         quantity = 1,
-        shippingRequired = true,
+        shippingRequired = false,
         sku = "items-demo-shop",
         type = "PRODUCT",
         uniqueId = "items-demo-shop"
