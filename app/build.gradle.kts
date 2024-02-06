@@ -15,8 +15,8 @@ android {
         applicationId = "com.wallee.samples.apps.shop"
         minSdk = libs.versions.minSdk.get().toInt()
         targetSdk = libs.versions.targetSdk.get().toInt()
-        versionCode = 5
-        versionName = "1.2.0-postfinance-staging"
+        versionCode = 6
+        versionName = "1.2.0-postfinance-production"
         vectorDrawables.useSupportLibrary = true
     }
     buildTypes {
