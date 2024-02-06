@@ -286,7 +286,7 @@ fun createTransaction(sumOf: Int): String {
         quantity = 1,
         shippingRequired = false,
         sku = "items-demo-shop",
-        type = "PRODUCT",
+        type = "SHIPPING",
         uniqueId = "items-demo-shop"
     )
 
