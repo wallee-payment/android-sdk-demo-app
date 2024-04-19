@@ -10,7 +10,7 @@ data class LineItems(
     @SerializedName("currency") var currency: String? = null,
     @SerializedName("discountExcludingTax") var discountExcludingTax: Int? = null,
     @SerializedName("discountIncludingTax") var discountIncludingTax: Int? = null,
-    @SerializedName("id") var id: Int? = null,
+    @SerializedName("id") var id: Number? = null,
     @SerializedName("name") var name: String? = null,
     @SerializedName("quantity") var quantity: Int? = null,
     @SerializedName("shippingRequired") var shippingRequired: Boolean? = null,
