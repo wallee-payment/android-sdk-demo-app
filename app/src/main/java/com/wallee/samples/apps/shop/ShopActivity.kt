@@ -1,10 +1,16 @@
 package com.wallee.samples.apps.shop
 
+import android.app.UiModeManager
+import android.content.Context
+import android.content.res.Configuration
+import android.graphics.Color
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.WindowCompat
 import androidx.lifecycle.lifecycleScope
 import com.google.accompanist.themeadapter.material.MdcTheme
@@ -33,9 +39,12 @@ class ShopActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        fixBackgroundColor()
+
         initWallee()
         WindowCompat.setDecorFitsSystemWindows(window, false)
         fetchFromPreferences()
+
 
         setContent {
             MdcTheme {
@@ -44,6 +53,18 @@ class ShopActivity : AppCompatActivity() {
                         setSupportActionBar(toolbar)
                     }
                 )
+            }
+        }
+    }
+
+    private fun fixBackgroundColor() {
+        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.P) {
+            val uiModeManager = getSystemService(Context.UI_MODE_SERVICE) as UiModeManager
+            if (uiModeManager.nightMode == UiModeManager.MODE_NIGHT_YES) {
+                val backgroundColor = ResourcesCompat.getColor(resources, R.color.bgColor, theme)
+                window.decorView.setBackgroundColor(backgroundColor)
+            } else {
+                window.decorView.setBackgroundColor(Color.WHITE)
             }
         }
     }

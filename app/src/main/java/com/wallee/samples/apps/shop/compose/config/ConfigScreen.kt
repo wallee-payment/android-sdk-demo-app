@@ -88,7 +88,6 @@ fun ShowSaveButton(
         }
     ) {
         Text(
-            color = MaterialTheme.colors.onPrimary,
             text = stringResource(id = R.string.add_config)
         )
     }
