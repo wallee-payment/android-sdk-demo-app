@@ -2,7 +2,6 @@ package com.wallee.samples.apps.shop
 
 import android.app.UiModeManager
 import android.content.Context
-import android.content.res.Configuration
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
@@ -39,7 +38,7 @@ class ShopActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        fixBackgroundColor()
+        setBackgroundColor()
 
         initWallee()
         WindowCompat.setDecorFitsSystemWindows(window, false)
@@ -57,7 +56,7 @@ class ShopActivity : AppCompatActivity() {
         }
     }
 
-    private fun fixBackgroundColor() {
+    private fun setBackgroundColor() {
         if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.P) {
             val uiModeManager = getSystemService(Context.UI_MODE_SERVICE) as UiModeManager
             if (uiModeManager.nightMode == UiModeManager.MODE_NIGHT_YES) {
