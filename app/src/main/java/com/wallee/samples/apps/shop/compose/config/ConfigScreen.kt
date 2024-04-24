@@ -7,6 +7,7 @@ import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.platform.SoftwareKeyboardController
 import androidx.compose.ui.res.dimensionResource
@@ -117,7 +118,7 @@ private fun ShowApplicationKey(
         )
         Text(
             text = appKey.errorMessage,
-            color = MaterialTheme.colors.onError
+            color = Color.Red
         )
     }
 }
@@ -142,7 +143,7 @@ private fun ShowSpaceId(viewModel: ConfigViewModel) {
         )
         Text(
             text = space.errorMessage,
-            color = MaterialTheme.colors.onError
+            color = Color.Red
         )
     }
 }
@@ -167,7 +168,7 @@ private fun ShowUserId(viewModel: ConfigViewModel) {
         )
         Text(
             text = user.errorMessage,
-            color = MaterialTheme.colors.onError
+            color = Color.Red
         )
     }
 }
