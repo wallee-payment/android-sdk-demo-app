@@ -15,7 +15,7 @@ android {
         applicationId = "com.wallee.samples.apps.shop"
         minSdk = libs.versions.minSdk.get().toInt()
         targetSdk = libs.versions.targetSdk.get().toInt()
-        versionCode = 8
+        versionCode = 9
         versionName = "1.3.0"
         vectorDrawables.useSupportLibrary = true
     }

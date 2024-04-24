@@ -21,8 +21,14 @@ class PortalViewModel @Inject constructor(private val repository: PortalReposito
         _showResult.value = false
     }
 
+    private val _isLoading = MutableStateFlow(false)
+    val isLoading: StateFlow<Boolean>
+        get() = _isLoading
+
     fun createToken(transaction: String, settings: Settings, launchSdk: (String) -> Unit) {
         viewModelScope.launch {
+            _isLoading.value = true
+
             val transactionResult = repository.createTransaction(transaction, settings)
 
             if (transactionResult.isSuccessful) {
@@ -41,6 +47,7 @@ class PortalViewModel @Inject constructor(private val repository: PortalReposito
             } else {
                 _showResult.value = true
             }
+            _isLoading.value = false
         }
 
     }
