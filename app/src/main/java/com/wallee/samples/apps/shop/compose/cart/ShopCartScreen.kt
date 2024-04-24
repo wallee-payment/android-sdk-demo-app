@@ -1,5 +1,6 @@
 package com.wallee.samples.apps.shop.compose.cart
 
+import android.util.Log
 import androidx.activity.compose.ReportDrawn
 import androidx.activity.compose.ReportDrawnWhen
 import androidx.compose.foundation.layout.*
@@ -29,6 +30,7 @@ import com.wallee.samples.apps.shop.data.portal.LineItems
 import com.wallee.samples.apps.shop.data.portal.Transaction
 import com.wallee.samples.apps.shop.viewmodels.*
 import com.wallee.walleepaymentsdk.enums.PaymentResultEnum
+import kotlinx.coroutines.launch
 import java.util.*
 
 @Composable
@@ -126,22 +128,39 @@ private fun Checkout(
 
     val (snackbarVisibleState, setSnackBarState) = remember { mutableStateOf(false) }
 
+    val scope = rememberCoroutineScope()
+
+    suspend fun debounce(waitMs: Long = 300L, block: () -> Unit) {
+        var lastClick = 0L
+        val now = System.currentTimeMillis()
+        if (now - lastClick >= waitMs) {
+            lastClick = now
+            block()
+        }
+    }
+
     Button(
         colors = ButtonDefaults.buttonColors(backgroundColor = MaterialTheme.colors.primary),
         shape = MaterialTheme.shapes.large,
         modifier = Modifier.fillMaxWidth(),
+        enabled = portalViewModel.isLoading.collectAsState().value.not(),
         onClick = {
-            if (configViewModel.isConfigSettingsEmpty()) {
-                setSnackBarState(true)
-            } else {
-                val transaction = createTransaction(itemList.sumOf { item -> item.item.price })
-                val settings = Settings(
-                    configViewModel.getUserId(),
-                    configViewModel.getSpaceId(),
-                    configViewModel.getAuthenticationKey()
-                )
-                portalViewModel.createToken(transaction, settings, launchSdk)
+            scope.launch {
+                debounce(1000) {
+                    if (configViewModel.isConfigSettingsEmpty()) {
+                        setSnackBarState(true)
+                    } else {
+                        val transaction = createTransaction(itemList.sumOf { item -> item.item.price })
+                        val settings = Settings(
+                            configViewModel.getUserId(),
+                            configViewModel.getSpaceId(),
+                            configViewModel.getAuthenticationKey()
+                        )
+                        portalViewModel.createToken(transaction, settings, launchSdk)
+                    }
+                }
             }
+
         }) {
         Text(
             color = MaterialTheme.colors.onPrimary,
