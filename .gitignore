@@ -86,3 +86,4 @@ fabric.properties
 
 /app/releaselocal.properties
 local.properties
+/app/release
