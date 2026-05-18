@@ -13,6 +13,7 @@ buildscript {
 
 plugins {
     id("com.diffplug.spotless") version "6.4.1"
+    id("org.jetbrains.kotlin.plugin.compose") version "2.1.20" apply false
     alias(libs.plugins.ksp) apply false
 }
 
