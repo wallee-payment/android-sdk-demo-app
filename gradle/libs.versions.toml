@@ -1,14 +1,15 @@
 [versions]
+ksp = "1.9.10-1.0.13"
 accompanist = "0.28.0"
 activityCompose = "1.7.0-alpha03"
-androidGradlePlugin = "7.3.1"
+androidGradlePlugin = "8.1.4"
 appcompat = "1.6.0"
 # @keep
 coilCompose = "2.2.2"
-compileSdk = "33"
+compileSdk = "34"
 composeLatest = "1.4.0-alpha03"
 composeBom = "2023.01.00"
-compose-compiler = "1.3.2"
+compose-compiler = "1.5.3"
 constraintLayoutCompose = "1.0.1"
 constraintLayout = "2.1.4"
 coroutines = "1.6.1"
@@ -16,10 +17,10 @@ datastorePref = "1.0.0"
 glide = "1.0.0-alpha.1"
 gradle = "7.2.0"
 gson = "2.9.0"
-hilt = "2.44"
+hilt = "2.48"
 hiltNavigationCompose = "1.0.0"
-kotlin = "1.7.20"
-kotlinBom = "1.8.0"
+kotlin = "1.9.10"
+kotlinBom = "1.9.0"
 ktlint = "0.40.0"
 ktx = "1.7.0"
 jjwt = "0.10.5"
@@ -34,14 +35,17 @@ pagingCompose = "1.0.0-alpha17"
 profileInstaller = "1.2.0-beta01"
 recyclerView = "1.3.0-alpha02"
 retrofit = "2.9.0"
-room = "2.4.3"
+room = "2.5.2"
 runner = "1.0.1"
 # @keep
-targetSdk = "33"
+targetSdk = "34"
 tracing = "1.1.0"
 viewModelCompose = "2.5.1"
 walleePaymentSdk = "1.3.0"
 work = "2.7.1"
+
+[plugins]
+ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 
 [libraries]
 accompanist-themeadapter-material = { module = "com.google.accompanist:accompanist-themeadapter-material", version.ref = "accompanist" }

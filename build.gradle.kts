@@ -1,6 +1,7 @@
 buildscript {
     repositories {
         mavenCentral()
+        google()
     }
 
     dependencies {
@@ -12,6 +13,7 @@ buildscript {
 
 plugins {
     id("com.diffplug.spotless") version "6.4.1"
+    alias(libs.plugins.ksp) apply false
 }
 
 spotless {
