@@ -14,7 +14,7 @@ android {
         dataBinding = true
     }
     defaultConfig {
-        applicationId = "com.wallee.samples.apps.shop"
+        applicationId = "com.wallee.samples.apps.shop.v2"
         minSdk = libs.versions.minSdk.get().toInt()
         targetSdk = libs.versions.targetSdk.get().toInt()
         versionCode = 10
