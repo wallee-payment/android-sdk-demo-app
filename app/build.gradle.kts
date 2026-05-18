@@ -17,9 +17,16 @@ android {
         applicationId = "com.wallee.samples.apps.shop"
         minSdk = libs.versions.minSdk.get().toInt()
         targetSdk = libs.versions.targetSdk.get().toInt()
-        versionCode = 9
-        versionName = "1.3.0"
+        versionCode = 10
+        versionName = "1.4.0"
         vectorDrawables.useSupportLibrary = true
+
+        ndk {
+            abiFilters += listOf("arm64-v8a")
+        }
+    }
+    androidResources {
+        noCompress += "so"
     }
     buildTypes {
         release {
@@ -45,11 +52,12 @@ android {
         dataBinding = true
     }
 
-    packagingOptions {
-        // Multiple dependency bring these files in. Exclude them to enable
-        // our test APK to build (has no effect on our AARs)
+    packaging {
         resources.excludes += "/META-INF/AL2.0"
         resources.excludes += "/META-INF/LGPL2.1"
+        jniLibs {
+            useLegacyPackaging = false
+        }
     }
 }
 

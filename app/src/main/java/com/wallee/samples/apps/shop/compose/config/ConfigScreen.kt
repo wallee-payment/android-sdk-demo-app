@@ -20,6 +20,7 @@ import com.wallee.samples.apps.shop.compose.card
 import com.wallee.samples.apps.shop.compose.utils.TextSnackbarContainer
 import com.wallee.samples.apps.shop.data.Settings
 import com.wallee.samples.apps.shop.viewmodels.ConfigViewModel
+import com.wallee.walleepaymentsdk.WalleePaymentSdk
 
 
 @OptIn(ExperimentalComposeUiApi::class)
@@ -45,7 +46,7 @@ fun ConfigScreen(
             ShowSpaceId(viewModel = configViewModel)
             ShowApplicationKey(configViewModel, keyboardController)
             ShowSaveButton(viewModel = configViewModel, cacheSettings)
-
+            TextHeader(stringResource(id = R.string.config_sdk_version, WalleePaymentSdk.instance?.SDK_VERSION ?: "-"))
             if (showSnackbar) {
                 TextSnackbarContainer(
                     snackbarText = stringResource(R.string.added_config),
