@@ -2,22 +2,31 @@ plugins {
     id("com.android.application")
     id("kotlin-android")
     id("kotlin-parcelize")
-    id("kotlin-kapt")
+    id("com.google.devtools.ksp")
     id("dagger.hilt.android.plugin")
+    id("org.jetbrains.kotlin.plugin.compose")
 }
 
 android {
+    namespace = "com.wallee.samples.apps.shop"
     compileSdk = libs.versions.compileSdk.get().toInt()
     buildFeatures {
         dataBinding = true
     }
     defaultConfig {
-        applicationId = "com.wallee.samples.apps.shop"
+        applicationId = "com.wallee.samples.apps.shop.v2"
         minSdk = libs.versions.minSdk.get().toInt()
         targetSdk = libs.versions.targetSdk.get().toInt()
-        versionCode = 9
-        versionName = "1.3.0"
+        versionCode = 14
+        versionName = "1.4.0"
         vectorDrawables.useSupportLibrary = true
+
+        ndk {
+            abiFilters += listOf("arm64-v8a")
+        }
+    }
+    androidResources {
+        noCompress += "so"
     }
     buildTypes {
         release {
@@ -27,11 +36,11 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
     }
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = "11"
 
         // Enable Coroutines and Flow APIs
         freeCompilerArgs =
@@ -42,14 +51,13 @@ android {
         compose = true
         dataBinding = true
     }
-    composeOptions {
-        kotlinCompilerExtensionVersion = libs.versions.compose.compiler.get()
-    }
-    packagingOptions {
-        // Multiple dependency bring these files in. Exclude them to enable
-        // our test APK to build (has no effect on our AARs)
+
+    packaging {
         resources.excludes += "/META-INF/AL2.0"
         resources.excludes += "/META-INF/LGPL2.1"
+        jniLibs {
+            useLegacyPackaging = false
+        }
     }
 }
 
@@ -61,9 +69,16 @@ androidComponents {
     }
 }
 
+ksp {
+    arg("dagger.fastInit", "ENABLED")
+    arg("dagger.hilt.android.internal.disableAndroidSuperclassValidation", "true")
+    arg("dagger.hilt.android.internal.projectType", "APP")
+    arg("dagger.hilt.internal.useAggregatingRootProcessor", "false")
+}
+
 dependencies {
-    kapt(libs.androidx.room.compiler)
-    kapt(libs.hilt.android.compiler)
+    ksp(libs.androidx.room.compiler)
+    ksp(libs.hilt.android.compiler)
 
     api(libs.jjwt.api)
     runtimeOnly(libs.jjwt.impl)

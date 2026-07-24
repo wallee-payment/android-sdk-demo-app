@@ -84,4 +84,6 @@ fabric.properties
 .DS_Store
 
 
+/app/releaselocal.properties
+local.properties
 /app/release

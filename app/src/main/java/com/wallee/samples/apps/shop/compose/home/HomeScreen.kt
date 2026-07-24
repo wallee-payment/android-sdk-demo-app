@@ -73,7 +73,7 @@ fun HomePagerScreen(
     launchSdk: (String) -> Unit,
     cacheSettings: (Settings) -> Unit,
 ) {
-    val pagerState = rememberPagerState()
+    val pagerState = rememberPagerState(pageCount = { pages.size })
 
     LaunchedEffect(pagerState.currentPage) {
         onPageChange(pages[pagerState.currentPage])
@@ -103,7 +103,6 @@ fun HomePagerScreen(
 
         val activity = (LocalContext.current as ShopActivity)
         HorizontalPager(
-            pageCount = pages.size,
             state = pagerState,
             verticalAlignment = Alignment.Top
         ) { index ->
