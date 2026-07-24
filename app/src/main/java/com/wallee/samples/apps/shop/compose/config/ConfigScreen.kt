@@ -47,6 +47,8 @@ fun ConfigScreen(
             ShowApplicationKey(configViewModel, keyboardController)
             ShowSaveButton(viewModel = configViewModel, cacheSettings)
             TextHeader(stringResource(id = R.string.config_sdk_version, WalleePaymentSdk.instance?.SDK_VERSION ?: "-"))
+            TextHeader(stringResource(id = R.string.config_sdk_build_version, WalleePaymentSdk.instance?.SDK_BUILD_VERSION ?: "-"))
+            TextHeader(stringResource(id = R.string.config_sdk_dep_version, WalleePaymentSdk.instance?.SDK_DEPENDENCIES_VERSION ?: "-"))
             if (showSnackbar) {
                 TextSnackbarContainer(
                     snackbarText = stringResource(R.string.added_config),

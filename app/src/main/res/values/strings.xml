@@ -19,6 +19,8 @@
     <string name="add_config" translatable="false" translation_description="Button text that prompts user to navigate to add config.">Add Config</string>
     <string name="config_empty" translatable="false" translation_description="Empty Config">Wallee Portal configuration is not present. Please provide user id, space id and authentication key.</string>
     <string name="config_sdk_version" translatable="false" translation_description="Empty Config">SDK Version: %1$s</string>
+    <string name="config_sdk_build_version" translatable="false" translation_description="Empty Config">SDK Build Version: %1$s</string>
+    <string name="config_sdk_dep_version" translatable="false" translation_description="Empty Config">SDK Dependencies Version: %1$s</string>
     <string name="config_miss" translatable="false" translation_description="Missing Config">Wallee Portal configuration is missing.</string>
     <string name="config_present" translatable="false" translation_description="Empty Config">Your Wallee Portal configuration is: </string>
     <string name="price_header" translation_description="Price">Price</string>
