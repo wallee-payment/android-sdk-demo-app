@@ -2,11 +2,11 @@
 ksp = "2.1.20-1.0.31"
 accompanist = "0.28.0"
 activityCompose = "1.7.0-alpha03"
-androidGradlePlugin = "8.3.2"
+androidGradlePlugin = "8.13.2"
 appcompat = "1.6.0"
 # @keep
 coilCompose = "2.2.2"
-compileSdk = "35"
+compileSdk = "36"
 composeLatest = "1.4.0-alpha03"
 composeBom = "2024.05.00"
 constraintLayoutCompose = "1.0.1"

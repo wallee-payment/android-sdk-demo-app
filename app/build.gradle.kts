@@ -10,29 +10,28 @@ plugins {
 android {
     namespace = "com.wallee.samples.apps.shop"
     compileSdk = libs.versions.compileSdk.get().toInt()
-    buildFeatures {
-        dataBinding = true
-    }
+    ndkVersion = "28.0.12433566"
+
     defaultConfig {
         applicationId = "com.wallee.samples.apps.shop.v2"
         minSdk = libs.versions.minSdk.get().toInt()
         targetSdk = libs.versions.targetSdk.get().toInt()
-        versionCode = 16
+        versionCode = 29
         versionName = "1.4.0"
         vectorDrawables.useSupportLibrary = true
 
         ndk {
             abiFilters += listOf("arm64-v8a")
         }
-        packaging {
-            jniLibs {
-                useLegacyPackaging = false
+        externalNativeBuild {
+            cmake {
+                arguments += "-DANDROID_SUPPORT_FLEXIBLE_PAGE_SIZES=ON"
             }
         }
     }
-    androidResources {
-        noCompress += "so"
-    }
+//    androidResources {
+//        noCompress += "so"
+//    }
     buildTypes {
         release {
             isMinifyEnabled = false
@@ -56,7 +55,11 @@ android {
         compose = true
         dataBinding = true
     }
-
+    bundle {
+        abi {
+            enableSplit = true
+        }
+    }
     packaging {
         resources.excludes += "/META-INF/AL2.0"
         resources.excludes += "/META-INF/LGPL2.1"
