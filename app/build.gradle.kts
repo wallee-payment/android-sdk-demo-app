@@ -17,12 +17,17 @@ android {
         applicationId = "com.wallee.samples.apps.shop.v2"
         minSdk = libs.versions.minSdk.get().toInt()
         targetSdk = libs.versions.targetSdk.get().toInt()
-        versionCode = 14
+        versionCode = 16
         versionName = "1.4.0"
         vectorDrawables.useSupportLibrary = true
 
         ndk {
             abiFilters += listOf("arm64-v8a")
+        }
+        packaging {
+            jniLibs {
+                useLegacyPackaging = false
+            }
         }
     }
     androidResources {
