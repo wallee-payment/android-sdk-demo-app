@@ -29,9 +29,6 @@ android {
             }
         }
     }
-//    androidResources {
-//        noCompress += "so"
-//    }
     buildTypes {
         release {
             isMinifyEnabled = false
